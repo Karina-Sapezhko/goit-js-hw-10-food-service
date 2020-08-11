@@ -6,15 +6,25 @@ const Theme = {
 const bodyRef = document.querySelector('body');
 const switchRef = document.querySelector('.js-switch-input');
 
+let updateLocalStorage = str => {
+  localStorage.setItem('theme', str);
+};
+let updateClassEl = str => {
+  bodyRef.classList.add(str);
+};
+let removeClassEl = () => {
+  bodyRef.classList.remove(Theme.DARK, Theme.LIGHT);
+};
+
 const handelChange = event => {
   if (event.target.checked) {
-    localStorage.setItem('theme', Theme.DARK);
-    bodyRef.classList.remove(Theme.LIGHT);
-    bodyRef.classList.add(Theme.DARK);
+    updateLocalStorage(Theme.DARK);
+    removeClassEl();
+    updateClassEl(Theme.DARK);
   } else if (!event.target.checked) {
-    localStorage.setItem('theme', Theme.LIGHT);
-    bodyRef.classList.remove(Theme.DARK);
-    bodyRef.classList.add(Theme.LIGHT);
+    updateLocalStorage(Theme.LIGHT);
+    removeClassEl();
+    updateClassEl(Theme.LIGHT);
   }
 };
 switchRef.addEventListener('change', handelChange);
@@ -24,10 +34,10 @@ function stabilTheme() {
 
   if (defaultTheme === Theme.DARK) {
     switchRef.checked = true;
-    bodyRef.classList.add(Theme.DARK);
+    updateClassEl(Theme.DARK);
   } else if (defaultTheme === Theme.LIGHT) {
     switchRef.checked = false;
-    bodyRef.classList.add(Theme.LIGHT);
+    updateClassEl(Theme.LIGHT);
   }
 }
 stabilTheme();
